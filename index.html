@@ -55,16 +55,16 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:1.0625rem;line-height:1.7;font-optical-sizing:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:clamp(1rem, .85rem + .3vw, 1.1875rem);line-height:1.7;font-optical-sizing:auto}
 a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:color-mix(in srgb, var(--accent) 40%, transparent)}
 a:hover{text-decoration-color:var(--accent)}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 ::selection{background:var(--accent-soft)}
 
-.page{max-width:1120px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:72px}
+.page{max-width:1480px;margin:0 auto;padding:0 clamp(24px,4vw,64px);display:grid;grid-template-columns:clamp(260px,21vw,330px) minmax(0,1fr);gap:clamp(48px,5.5vw,96px)}
 
 /* Sidebar: the one place the page spends its boldness — a contour map behind the portrait */
-.side{position:sticky;top:0;align-self:start;min-height:100vh;padding:56px 0 40px;display:flex;flex-direction:column}
+.side{position:relative;align-self:start;min-height:100vh;padding:56px 0 40px;display:flex;flex-direction:column}
 .terrain{position:absolute;inset:0 -40px auto -40px;height:520px;z-index:0;pointer-events:none;
   -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent);mask-image:linear-gradient(to bottom,#000 55%,transparent)}
 .terrain path{fill:none;stroke:var(--contour);stroke-width:1.1;vector-effect:non-scaling-stroke}
@@ -84,8 +84,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .side-foot{margin-top:auto;padding-top:40px;font-family:var(--sans);font-size:.8rem;color:var(--muted)}
 .theme-toggle{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 
+/* Keep the sidebar pinned only when the whole sidebar fits in the window */
+@media (min-width: 881px) and (min-height: 860px){.side{position:sticky;top:0}}
 /* Main column */
-main{padding:56px 0 96px;max-width:44rem}
+main{padding:56px 0 96px;min-width:0}
+/* Wide column, but running prose keeps a readable measure */
+#about p,.news li > span,.theme p,.desc{max-width:46em}
 nav.toc{font-family:var(--sans);font-size:.92rem;display:flex;flex-wrap:wrap;gap:6px 22px;padding-bottom:18px;border-bottom:1px solid var(--rule);margin-bottom:8px}
 nav.toc a{color:var(--muted);text-decoration:none}
 nav.toc a:hover{color:var(--accent)}
@@ -100,6 +104,7 @@ p{margin:0 0 1em}
 .news time{font-family:var(--sans);font-size:.9rem;color:var(--muted);padding-top:.15em;font-variant-numeric:tabular-nums}
 
 .themes{display:grid;gap:30px}
+@media (min-width: 1240px){.themes{grid-template-columns:repeat(3,minmax(0,1fr));gap:36px}}
 .theme{padding-left:20px;border-left:2px solid var(--accent)}
 .theme p{color:var(--ink);margin:0}
 .theme .tools{font-family:var(--sans);font-size:.88rem;color:var(--muted);margin-top:8px}
